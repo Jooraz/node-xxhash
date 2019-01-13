@@ -1,28 +1,33 @@
+language: node_js
+
+env:
+  - LINUX_CXX=g++-4.9
+
 os:
-  - linux
-  - osx
-sudo: false
-language: cpp
+  - windows
+
+node_js:
+  - "10"
+
 addons:
   apt:
     sources:
-    - ubuntu-toolchain-r-test
+      - ubuntu-toolchain-r-test
     packages:
-    - g++-4.8
-notifications:
-  email: false
-env:
-  matrix:
-  - TRAVIS_NODE_VERSION="0.10"
-  - TRAVIS_NODE_VERSION="0.12"
-  - TRAVIS_NODE_VERSION="4"
-  - TRAVIS_NODE_VERSION="6"
-  - TRAVIS_NODE_VERSION="7"
-  - TRAVIS_NODE_VERSION="8"
-install:
-  - "rm -rf ~/.nvm && mkdir -p ~/.nvm && curl -sL `curl -sI https://github.com/creationix/nvm/releases/latest|sed -En 's/^Location: (.+)\\/releases\\/tag\\/(.+)/\\1\\/tarball\\/\\2/p'|tr -d '\r\n'`|tar zx --strip=1 -C ~/.nvm && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION"
-  - npm --version
-  - if [[ $TRAVIS_OS_NAME == "linux" ]]; then export CXX=g++-4.8; export CC=gcc-4.8; fi
-  - $CXX --version
+      - g++-4.9
+      - bc
+
+before_install:
+  - echo Building for Node $TRAVIS_NODE_VERSION
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX=$LINUX_CXX; $CXX --version; fi;
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then c++ --version; fi;
   - npm install
+
+install: true
+
 script: npm test
+
+after_success:
+  - npm install node-pre-gyp
+  - npm install node-pre-gyp-github@1.3.1;
+  - ./node_modules/.bin/node-pre-gyp package;
