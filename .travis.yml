@@ -29,5 +29,6 @@ script: npm test
 
 after_success:
   - npm install node-pre-gyp
-  - npm install node-pre-gyp-github@1.3.1;
+  - npm install node-pre-gyp-github@1.4.3;
   - ./node_modules/.bin/node-pre-gyp package;
+  - ./node_modules/.bin/node-pre-gyp-github publish --release;
