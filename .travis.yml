@@ -1,13 +1,21 @@
 language: node_js
+filter_secrets: false
 
 env:
-  - LINUX_CXX=g++-4.9
-
+  global:
+    - NVS_VERSION=1.5.2
+    - LINUX_CXX=g++-4.9
+    - secure: CWYLL1grY4k151uO2/ET5Gy+KcXb1dVjxuSxEIBnqUftIh/tE1mULwlLEcrlqhpIWq/1odjaiHMdRGXOuPemsUy7OtCzRQnr2AHHjNxbF2rk1dNx70X/X2OiJ/eKTt9tz7fF+bC3xWGO6im52OUy38Otv1sZdT9QmLsuxqFqME61Kkvg/BWb4EEJVV8ZMP3KN4o2ThivWTw5+Sdh4h4B4w2JQbJBp03XVuMrp+HN+h1pBrA5Jg6+GYABcU25KIAgA6TSBhfM+S3tiSOuj6/NW4Vf2r4LItLFadaN+fmd64xai+L47WUzwCMuIDbXOcaij4jzgdNOT289H2MQrcAXUuc+bSQi86/Pv4qBvUmLTUVROawhadFsvMh3NmrKkEa33XC6aoY107d1VScofyY5w8l2MRHs9gz2nvReAj72ak/jpxKInDfc/1o+q0arg1nhwPyJdSJA6egv+U2MW4rObq13k0B0IEnatu2yXb5Wk5CrjYpItjBwk4C5VvHCscdZgaNAOCY1b2JuIVVhc4V9+r1E54Jjf/AOY4uBJroYsJXpVCD5z0esLnBhnzQfpM53jqc5aFRwljVnkYKcwR83RCRNo8Vzmht/QYTr3bcdrkJnFYSHolydlNNrnZDyguoYY6FivHxw7afNDvRzSw0aUhNPRO/CfsKScjg7BKVHJmk=
 os:
   - windows
 
 node_js:
-  - "10"
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
 
 addons:
   apt:
@@ -29,7 +37,7 @@ script: npm test
 
 after_success:
   - npm install node-pre-gyp
-  - npm install node-pre-gyp-github@1.4.3;
+  - npm install node-pre-gyp-github;
   - ./node_modules/.bin/node-pre-gyp build;
   - ./node_modules/.bin/node-pre-gyp package;
   - ./node_modules/.bin/node-pre-gyp-github publish --release;
